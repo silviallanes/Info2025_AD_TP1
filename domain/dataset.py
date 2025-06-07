@@ -45,5 +45,5 @@ class Dataset(ABC): #inicializada la clase
 
 
 
-    def mostrar_resumen(self):
+    def visualizar_datos_estadisticos(self):
         return print(self.datos.describe(include='all') if self.datos is not None else "No hay datos")

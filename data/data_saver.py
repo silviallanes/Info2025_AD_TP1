@@ -5,7 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from decouple import config
 
 
-class DataSaver: #modificamos la clase datasaver en su metodo init
+class DataSaver: 
     def __init__(self):
         user = config('DB_USER')
         password = config('DB_PASSWORD')
@@ -21,7 +21,7 @@ class DataSaver: #modificamos la clase datasaver en su metodo init
             print(f"No se puede guardar datos vacíos para {nombre_tabla}")
             return
         if not isinstance(df, pd.DataFrame):
-            print(f"Tipo inválido: se esperaba un DataFrame, se recibió un {type(df)}")
+            print(f"Error en el tipo de dato esperado. Se recibió un {type(df)}")
             return
         try:
             
