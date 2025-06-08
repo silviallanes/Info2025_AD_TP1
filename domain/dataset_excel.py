@@ -20,9 +20,10 @@ class DatasetExcel(Dataset):
 
     def transformar_datos(self):
         if self.datos is not None:
-            #se completan datos faltantes en columna barrio
+            #se completan datos faltantes en columna barrio y se reemplaza sin geo
             self.datos['barrio'] = self.datos['barrio'].fillna('Desconocido')
             self.datos['barrio'] = self.datos['barrio'].replace(0,'Desconocido')
+            self.datos['barrio'] = self.datos['barrio'].replace('Sin geo', "Desconocido")
             #se completan datos faltantes de la comuna
             self.datos['comuna'] = self.datos['comuna'].fillna('Desconocido')
             #se reemplazan valores en columna uso_moto
@@ -33,8 +34,11 @@ class DatasetExcel(Dataset):
             self.datos['uso_moto'] =self.datos['uso_moto'].astype(bool)
             #cambiar el tipo de datos de la columna uso_arma a bool
             self.datos['uso_arma'] =self.datos['uso_arma'].astype(bool)
+            #cambiar el tipo de datos de la columna fecha a datetime
+            self.datos['fecha'] = pd.to_datetime(self.datos['fecha'],dayfirst=True)
+            self.datos['fecha'] = self.datos['fecha'].dt.date
             #eliminar columnas innecesarias
-            self.datos.drop(columns=['id-mapa', 'anio', 'mes','latitud','longitud','cantidad'], inplace=True)
+            self.datos.drop(columns=['id-mapa', 'anio', 'mes','comuna','latitud','longitud','cantidad'], inplace=True)
             
             print("Transformaciones aplicadas.")
         else:
