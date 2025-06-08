@@ -17,3 +17,26 @@ class DatasetExcel(Dataset):
 
         except Exception as e:
             print(f"Error cargando Excel: {e}")
+
+    def transformar_datos(self):
+        if self.datos is not None:
+            #se completan datos faltantes en columna barrio
+            self.datos['barrio'] = self.datos['barrio'].fillna('Desconocido')
+            self.datos['barrio'] = self.datos['barrio'].replace(0,'Desconocido')
+            #se completan datos faltantes de la comuna
+            self.datos['comuna'] = self.datos['comuna'].fillna('Desconocido')
+            #se reemplazan valores en columna uso_moto
+            self.datos['uso_moto'] = self.datos['uso_moto'].replace({'SI': True, 'NO': False})
+            #se reemplazan valores en columna uso_arma
+            self.datos['uso_arma'] = self.datos['uso_arma'].replace({'SI': True, 'NO': False})
+            #cambiar el tipo de datos de la columna uso_moto a bool
+            self.datos['uso_moto'] =self.datos['uso_moto'].astype(bool)
+            #cambiar el tipo de datos de la columna uso_arma a bool
+            self.datos['uso_arma'] =self.datos['uso_arma'].astype(bool)
+            #eliminar columnas innecesarias
+            self.datos.drop(columns=['id-mapa', 'anio', 'mes','latitud','longitud','cantidad'], inplace=True)
+            
+            print("Transformaciones aplicadas.")
+        else:
+             print("no hay datos para transformar.")
+       

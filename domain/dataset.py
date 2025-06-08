@@ -26,7 +26,7 @@ class Dataset(ABC): #inicializada la clase
 
     def validar_datos(self):
         if self.datos is None:
-            raise ValueError("Datos no cargados") 
+            raise ValueError("Datos no cargados")
         if self.datos.isnull().sum().sum() > 0:
             print("Datos faltantes detectados")
         if self.datos.duplicated().sum()>0:
@@ -34,15 +34,18 @@ class Dataset(ABC): #inicializada la clase
         return True
 
     def transformar_datos(self):
-         if self.datos is not None:
-             self.__datos.columns = self.datos.columns.str.lower().str.replace(" ","_")
-             self.__datos = self.datos.drop_duplicates() 
-            #  for col in self.datos.select_dtypes(include="object").columns:
-            #      self.__datos[col] = self.datos[col].astype(str).str.strip()
-             print("Transformaciones aplicadas.")
-         else:
-             print("no hay datos para transformar.")
-
+        if self.datos is not None:
+            self.__datos = self.datos.drop_duplicates() 
+            print(self.datos.describe())
+            print("detalles del dataframe")
+            print(self.datos.info())
+            print("Tipos de datos de las columnas")
+            print(self.datos.dtypes)
+            print("valores nulos")
+            print(self.datos.isnull().sum())
+        else:
+            print("no hay datos para transformar.")
+        
 
 
     def visualizar_datos_estadisticos(self):
